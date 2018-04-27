@@ -1,0 +1,99 @@
+CSRF protection
+Overview
+Cross site request forgery is a class of attack that forces an end user to execute unwanted actions on Jenkins. Because of the way 
+this attack works, even Jenkins that's running inside a corporate firewall is vulnerable. A common way to exploit this is by spear 
+phishing.
+
+Enabling Protection
+To protect against this class of attacks, go to "Manage Jenkins" > "Configure Global Security" and select "Prevent Cross Site Request 
+Forgery exploits." This option is enabled by default in new installations starting Jenkins 2.x, but if you are still on 1.x or upgrading 
+existing installations to 2.x, this option is off by default.
+---
+Disabling Security:
+--------------------
+One may accidentally set up a security realm / authorization in such a way that you may no longer be able to reconfigure Jenkins.
+
+When this happens, you can fix this by the following steps:
+
+Stop Jenkins (the easiest way to do this is to stop the servlet container.)
+
+Go to $JENKINS_HOME in the file system and find config.xml file.
+
+Open this file in the editor.
+
+Look for the <useSecurity>true</useSecurity> element in this file.
+
+Replace true with false
+
+Remove the elements authorizationStrategy and securityRealm
+
+Start Jenkins
+
+When Jenkins comes back, it will be in an unsecured mode where everyone gets full access to the system.
+
+If this is still not working, trying renaming or deleting config.xml.
+----
+Disabling Security:
+--------------------
+One may accidentally set up a security realm / authorization in such a way that you may no longer be able to reconfigure Jenkins.
+
+When this happens, you can fix this by the following steps:
+
+Stop Jenkins (the easiest way to do this is to stop the servlet container.)
+
+Go to $JENKINS_HOME in the file system and find config.xml file.
+
+Open this file in the editor.
+
+Look for the <useSecurity>true</useSecurity> element in this file.
+
+Replace true with false
+
+Remove the elements authorizationStrategy and securityRealm
+
+Start Jenkins
+
+When Jenkins comes back, it will be in an unsecured mode where everyone gets full access to the system.
+
+If this is still not working, trying renaming or deleting config.xml.
+----
+Security implication of building on master
+
+Builds that are run on the master node can read, or modify, files in $JENKINS_HOME. This can be used to perform all sorts of activities 
+that impact the entire Jenkins installation, such as installing plugins, reading credentials, creating new jobs, etc.
+
+In an environment where there's a distinction between people who administer Jenkins and people who configure jobs or commit changes
+into projects being built, you should generally configure the master to have no executors, and run builds only on build agents.
+
+If you do not have any other computers to run build agents, or you can run a build agent as a different operating system user on 
+the same computer to achieve the same isolation effect.
+
+Alternatively,download plugin from below link:
+https://wiki.jenkins.io/display/JENKINS/Job+Restrictions+Plugin#JobRestrictionsPlugin-Abouttheplugin
+----
+Whitelisting from GUI:
+----------------------
+Slave To Master Access Control
+On Jenkins, you can go to http://jenkins/administrativeMonitor/slaveToMasterAccessControl/ to edit whitelist rules from GUI 
+and have them reflected right away in the running instance. It consists of the following three sections:
+
+>>Currently whitelisted commands: See above for what this field means.
+>>Currently rejected commands: This section lists unclassified commands that Jenkins has actually rejected. You can check boxes and
+submit them to have Jenkins write them into the "currently whitelisted commands" section. Be careful when you do this, though.
+>>File Access Fileds:File access request from agents is tested against the rules you specify. Each rule is a tuple that consists of:
+
+allow/deny: if the following two parameters match the current request being considered, an "allow" entry would allow the request to be carried out and a "deny" entry would deny the request to be rejected, regardless of what later rules might say.
+operation: the type of the operation requested. The following 6 values exist. You can also list them separating with ',' or use "all" to indicate a match to all operations:
+read: read file content or list directory entries
+write: write file content
+mkdirs: create a new directory
+create: create a file in an existing directory
+delete: delete a file or directory
+stat: read metadata of a file/directory, such as timestamp, length, file access modes.
+file path: regular expression that specifies file paths that matches this rule. In addition to the base regexp syntax, it supports the following tokens:
+<JENKINS_HOME> can be used as a prefix to match your $JENKINS_HOME directory
+<BUILDDIR> can be used as a prefix to match your build record directory, such as /var/lib/jenkins/job/foo/builds/2014-10-17_12-34-56
+<BUILDID> matches the timestamp-formatted build IDs, like 2014-10-17_12-34-56.
+
+When submitted, these changes are written back to disk and then re-read right away into Jenkins, including all 
+whitelisted-callables.d/.conf and filepath-filters.d/.conf.

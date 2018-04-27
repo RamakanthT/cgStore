@@ -1,0 +1,31 @@
+hydproxy.igate.com
+8080
+
+run localhost:9999 in browser then copy path
+
+in run command paste path- C:\Users\rthogiti\.jenkins\secrets\initialAdminPassword
+copy key i.e. 	b17dd9b8572b4385970c301f3d9b1bf1
+
+jenkintoken - mediator between jenkins and github
+aedaa0821d5fee3035ff24b128fceab2dd5fa5c6
+
+sonarqube
+login
+admin/admin
+
+git commands
+echo "# mySpace" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/RamakanthT/mySpace.git
+git push -u origin master
+
+jenkins hpi
+skip-certificate-check.hpi
+docker-plugin.hpi
+
+Usefull Plugins
+https://wiki.jenkins.io/display/JENKINS/Build+Monitor+Plugin
+https://wiki.jenkins.io/display/JENKINS/Role+Strategy+Plugin
+https://wiki.jenkins.io/display/JENKINS/Standard+Security+Setup
