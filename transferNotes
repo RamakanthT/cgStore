@@ -1,0 +1,12 @@
+Please check below steps and start doing those examples in the specified order. If you have any questions, please let me know
+
+1. Sample springboot project and hello world example
+2. Spring boot rest service with sample create/update/read/delete operations
+3. Use SOAP UI/Postman tool to test above rest operations
+4. Spring boot database connection usin H2 internal database
+5. Spring mvc - JSP page integration to add/fetch/delete/update operations
+6. Learn and write junits for above implemented code
+
+Implement all these steps in one single project only
+
+Please provide day wise progress by replying to this email
